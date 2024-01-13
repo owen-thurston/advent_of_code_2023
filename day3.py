@@ -9,9 +9,10 @@ with open('test.txt', 'r') as f:
 symbols = []
 for i, row in enumerate(grid):
     for j, val in enumerate(row):
-        if not val.isdigit():
+        if not (val == '.' or val.isdigit()):
             symbols.append((i, j))
-print(symbols)
 
 # Search areas adjacent to symbols
+
+# Continue reading numbers if a digit is adjacent to a symbol
 # Try to avoid double checking areas if there are symbols adjacent to each other
