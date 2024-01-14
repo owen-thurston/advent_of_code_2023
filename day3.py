@@ -13,6 +13,15 @@ for i, row in enumerate(grid):
             symbols.append((i, j))
 
 # Search areas adjacent to symbols
+adjacency_masks = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]
 
-# Continue reading numbers if a digit is adjacent to a symbol
-# Try to avoid double checking areas if there are symbols adjacent to each other
+for symbol in symbols:
+
+    # Check 8 spaces adjacent to symbol using adjacency_mask
+    for mask in adjacency_masks:
+        char = grid[symbol[0] + mask[0]][symbol[1] + mask[1]]
+
+        if not char == '.' and char.isdigit():
+            # Continue reading numbers if a digit is adjacent to a symbol
+
+# Avoid double checking areas if there are symbols adjacent to each other
