@@ -18,24 +18,35 @@ numbers = []
 for symbol in symbols:
 
     # Check 8 spaces adjacent to symbol starting upper left
-    offset = -1
-    num = ''
-    char = grid[symbol[0] -1][symbol[1] + offset]
-
-    # Continue reading numbers if a digit is adjacent to a symbol
-    while char.isdigit():
-        num = char + num
-        offset -= 1
-        if symbol[1] + offset >= 0:
-            char = grid[symbol[0] -1][symbol[1] + offset]
-        else:
-            break
-
-    # Rows
-    # TODO: trying to write up a loop approach
     for i in (-1, 0, 1):
         for j in (-1, 0, 1):
             num = ''
-            char = grid[symbol[0] + i][symbol[1] + offset]
+            char = grid[symbol[0] + i][symbol[1] + j]
 
-# Avoid double checking areas if there are symbols adjacent to each other
+            if i == 0 and j == 0:
+                # This is the symbol coordinates
+                break
+
+            offset = j
+            while char.isdigit():
+                # Check for more digits to the left
+                if j == -1:
+                    num = char + num
+                    offset -= 1
+                    if symbol[1] + offset >= 0:
+                        char = grid[symbol[0] + i][symbol[1] + offset]
+                    else:
+                        # Reached start of row
+                        break
+                else:
+                    # Check for more digits to the right, avoiding overlapping checks
+                    num = num + char
+                    offset += 1
+                    # TODO: don't check j = 1 if both j = 0 and j = 1 are digits
+                    try:
+                        char = grid[symbol[0] + i][symbol[1] + offset]
+                    except IndexError:
+                        break
+
+            if num:
+                numbers.append(int(num))
