@@ -28,25 +28,24 @@ for symbol in symbols:
                 break
 
             offset = j
-            while char.isdigit():
-                # Check for more digits to the left
-                if j == -1:
-                    num = char + num
-                    offset -= 1
-                    if symbol[1] + offset >= 0:
-                        char = grid[symbol[0] + i][symbol[1] + offset]
-                    else:
-                        # Reached start of row
-                        break
-                else:
-                    # Check for more digits to the right, avoiding overlapping checks
-                    num = num + char
-                    offset += 1
-                    # TODO: don't check j = 1 if both j = 0 and j = 1 are digits
-                    try:
-                        char = grid[symbol[0] + i][symbol[1] + offset]
-                    except IndexError:
-                        break
+            while char.isdigit() and 0 <= symbol[1] + offset and symbol[1] + offset < len(grid[symbol[0]]):
+                # Find start of number    
+                num = char + num
+                offset -= 1
+                char = grid[symbol[0] + i][symbol[1] + offset]
+
+                # Continue collecting number on right
+                # Avoid double checking if grid space already checked
+                    
+
+
+            #         num = num + char
+            #         offset += 1
+            #         # TODO: don't check j = 1 if both j = 0 and j = 1 are digits
+            #         try:
+            #             char = grid[symbol[0] + i][symbol[1] + offset]
+            #         except IndexError:
+            #             break
 
             if num:
                 numbers.append(int(num))
