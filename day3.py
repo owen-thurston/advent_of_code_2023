@@ -32,4 +32,21 @@ for i, row in enumerate(grid):
         if not (val == '.' or val.isdigit()):
             mark_adjacent_cells(symbol_grid, i, j)
 
-pprint(symbol_grid)
+# Check which numbers overlap with adjacency grid
+numbers = []
+num = ''
+adjacent = False
+
+for i, row in enumerate(grid):
+    for j, val in enumerate(row):
+        if val.isdigit():
+            num += val
+            adjacent |= symbol_grid[i][j]
+        elif num != '':
+            if adjacent:
+                numbers.append(int(num))
+            num = ''
+            adjacent = False
+
+pprint(numbers)
+print(sum(numbers))
