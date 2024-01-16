@@ -1,11 +1,10 @@
 # Create boolean adjacency grids for symbols and numbers
 # Take ^ of grids to find out which numbers to keep
-from pprint import pprint
 
 # Read input into 2x2 grid
 grid = []
 
-with open('test.txt', 'r') as f:
+with open('day3_input.txt', 'r') as f:
     for row in f:
         grid.append(list(row.strip()))
 
@@ -48,5 +47,28 @@ for i, row in enumerate(grid):
             num = ''
             adjacent = False
 
-pprint(numbers)
 print(sum(numbers))
+
+# Part 2
+# Find '*' symbols with 2 numbers adjacent to them
+def num_adjacent(grid, x, y):
+    num_adj = 0
+
+    for i in (-1, 0, 1):
+        last_adj = False
+        for i in (-1, 0, 1):
+            if grid[x][y].isdigit() and not last_adj:
+                num_adj += 1
+                last_adj = True
+            else:
+                last_adj = False
+
+    return num_adj
+
+gear_ratios = []
+
+for i, row in enumerate(grid):
+    for j, val in enumerate(row):
+        if val == '*' and num_adjacent(grid, i, j) == 2:
+            # This is a gear. Get gear ratio
+            
