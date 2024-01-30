@@ -4,7 +4,7 @@
 # Read input into 2x2 grid
 grid = []
 
-with open('test.txt', 'r') as f:
+with open('day3_input.txt', 'r') as f:
     for row in f:
         grid.append(list(row.strip()))
 
@@ -107,6 +107,8 @@ gear_ratios = []
 for i, row in enumerate(grid):
     for j, val in enumerate(row):
         if val == '*' and num_adjacent(grid, i, j) == 2:
+            # DEBUG
+            print(f"({i}, {j})")
             # This is a gear. Get gear ratio
             gear_ratios.append(get_gear_ratio(grid, i, j))
 print(sum(gear_ratios))
