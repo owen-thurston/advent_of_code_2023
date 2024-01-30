@@ -4,7 +4,7 @@
 # Read input into 2x2 grid
 grid = []
 
-with open('day3_input.txt', 'r') as f:
+with open('test.txt', 'r') as f:
     for row in f:
         grid.append(list(row.strip()))
 
@@ -78,13 +78,7 @@ def get_gear_ratio(grid, x, y):
         for j in (-1, 0, 1):
             if grid[x + i][y + j].isdigit():
                 num1 = num1 + grid[x + i][y + j]
-                # Collect digits going left but not past list limits
-                if not last_digit:
-                    k = j - 1
-                    while grid[x + i][y + k].isdigit() and y + k > 0:
-                        num1 = grid[x + i][y + k] + num1
-                        k -= 1
-                elif j == 1:
+                if j == 1:
                     # Collect digits going right until a gap reached and not past list limits
                     k = j + 1
                     try:
@@ -94,11 +88,19 @@ def get_gear_ratio(grid, x, y):
                     except IndexError:
                         # End of row reached
                         pass
+                elif not last_digit:
+                # Collect digits going left but not past list limits
+                # As well as collect digits in the 3x3 space around the "*"
+                    k = j - 1
+                    while grid[x + i][y + k].isdigit() and y + k >= 0:
+                        num1 = grid[x + i][y + k] + num1
+                        k -= 1
                 last_digit = True
-            else:
+            elif num1 and not num2:
                 last_digit = False
                 num2 = num1
                 num1 = ''
+    return int(num1) * int(num2)
 
 gear_ratios = []
 
